@@ -1,11 +1,37 @@
 {
   "name": "simple-interpolation",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Simple Interpolation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmytropadychak/simple-interpolation.git"
+  },
+  "author": {
+    "name": "Dmytro Paduchak",
+    "email": "dmytro.paduchak@gmail.com",
+    "url": "https://github.com/dmytropadychak"
+  },
+  "keywords": [
+    "simple",
+    "interpolation",
+    "typescript"
+  ],
+  "bugs": {
+    "url": "https://github.com/dmytropadychak/simple-interpolation/issues"
+  },
+  "homepage": "https://github.com/dmytropadychak/simple-interpolation#readme",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "typescript": "^3.2.2"
+  }
 }
