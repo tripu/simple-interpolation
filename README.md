@@ -13,7 +13,7 @@ npm install simple-interpolation --save
 ## Module Single Interpolation
 
 ```sh
-  Single interpolation
+  Simple Schema of Single interpolation
 
   ---|---|
   x1 |v1 |
@@ -75,7 +75,7 @@ f({ v: 1.5 }); // x -> 1.5
 ## Module Double Interpolation
 
 ```sh
-  Double interpolation
+  Simple Schema of Double interpolation
 
      |x1 | x |x2 |
   ---|---|---|---|
