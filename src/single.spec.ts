@@ -31,9 +31,9 @@ describe("single.ts", () => {
   it("should throw interpolation error", () => {
     expect(() =>
       single([])({ x: 3 })
-    ).to.throw(/Can't calculate single interpolation, please provide points/);
+    ).to.throw(/Can't calculate single interpolation, please provide more points/);
     expect(() => 
       single([{ x: 1, v: 1}, { x: 2, v: 2 }])({ z: 3 })
-    ).to.throw(/Can't calculate single interpolation, please provide correct search data/);
+    ).to.throw(/Can't calculate single interpolation, please provide correct martix data/);
   });
 });

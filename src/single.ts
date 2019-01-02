@@ -22,7 +22,7 @@ function format<T>(cursor: Cursor<T>, points: Point[]): [number, Array<Array<num
     points.sort((a: Point, b: Point) => a.v - b.v);
     return [cursor["v"], points.map((i: Point) => [i.v, i.x])];
   }
-  throw "Can't calculate single interpolation, please provide correct search data";
+  throw "Can't calculate single interpolation, please provide correct martix data";
 }
 
 /**
@@ -33,7 +33,7 @@ function format<T>(cursor: Cursor<T>, points: Point[]): [number, Array<Array<num
  */
 export function single(points: Point[]): <T>(cursor: Cursor<T>) => number {
   if (points.length <= 1) {
-    throw "Can't calculate single interpolation, please provide points";
+    throw "Can't calculate single interpolation, please provide more points";
   }
 
   return <T>(cursor: Cursor<T>): number => {
