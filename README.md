@@ -37,7 +37,7 @@ single(points)({ x: 1.5 }); // y -> 1.5
 single(points)({ y: 1.5 }); // x -> 1.5
 ```
 
-Or you can using JavaScript alternative
+Or you can use JavaScript
 
 ```javascript
 var simple = require('simple-interpolation');
@@ -49,7 +49,7 @@ single({ x: 1.5 }); // y -> 1.5
 single({ y: 1.5 }); // x -> 1.5
 ```
 
-Or you can using JavaScript(Babale) alternative
+Or you can use JavaScript(Babale)
 
 ```javascript
 import { single } from 'simple-interpolation';
@@ -62,7 +62,7 @@ f({ x: 1.5 }); // y -> 1.5
 f({ y: 1.5 }); // x -> 1.5
 ```
 
-Or you can using TypeScript alternative
+Or you can use TypeScript
 
 ```typescript
 import { single } from "simple-interpolation";
