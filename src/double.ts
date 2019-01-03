@@ -4,7 +4,7 @@ import { single } from './single';
 interface Point {
   x: number;
   y: number;
-  v: number;
+  z: number;
 }
 
 /** Search Point Cursor Type */
@@ -21,115 +21,120 @@ export function double(points: Point[]): <T>(cursor: Cursor<T>) => number {
     throw "Can't calculate double interpolation, please provide more points";
   }
 
-  // const x1 = arr.sort((a, b) => b[0] - a[0]).find(i => i[0] <= x);
-  // const x2 = arr.sort((a, b) => a[0] - b[0]).find(i => i[0] >= x);
-
-  // if (!x1 || !x2) {
-  //   throw new NotFoundError(`can't calculate double interpolation of x: '${x}' and y: '${y}'`);
-  // }
-
-  // if (x1[0] === x2[0]) {
-  //   return SINGLE(arr.filter(i => i[0] === x1[0]).map(i => [i[2], i[1]]), y);
-  // }
-
-  // const y1 = arr.sort((a, b) => b[2] - a[2]).find(i => i[2] <= y);
-  // const y2 = arr.sort((a, b) => a[2] - b[2]).find(i => i[2] >= y);
-
-  // if (!y1 || !y2) {
-  //   throw new NotFoundError(`can't calculate double interpolation of x: '${x}' and y: '${y}'`);
-  // }
-
-  // if (y1[2] === y2[2]) {
-  //   return SINGLE(arr.filter(i => i[2] === y1[2]).map(i => [i[0], i[1]]), x);
-  // }
-
-  // const v11 = arr.find(i => i[0] === x1[0] && i[2] === y1[2]);
-  // const v12 = arr.find(i => i[0] === x2[0] && i[2] === y1[2]);
-  // const v21 = arr.find(i => i[0] === x1[0] && i[2] === y2[2]);
-  // const v22 = arr.find(i => i[0] === x2[0] && i[2] === y2[2]);
-
-  // const a1 = x2[0] - x;
-  // const a2 = y2[2] - y;
-  // const a3 = x2[0] - x1[0];
-  // const a4 = y2[2] - y1[2];
-  // const a = ((a1 * a2) / (a3 * a4)) * v11[1];
-
-  // const b1 = x - x1[0];
-  // const b2 = y2[2] - y;
-  // const b3 = x2[0] - x1[0];
-  // const b4 = y2[2] - y1[2];
-  // const b = ((b1 * b2) / (b3 * b4)) * v12[1];
-
-  // const c1 = x2[0] - x;
-  // const c2 = y - y1[2];
-  // const c3 = x2[0] - x1[0];
-  // const c4 = y2[2] - y1[2];
-  // const c = ((c1 * c2) / (c3 * c4)) * v21[1];
-
-  // const d1 = x - x1[0];
-  // const d2 = y - y1[2];
-  // const d3 = x2[0] - x1[0];
-  // const d4 = y2[2] - y1[2];
-  // const d = ((d1 * d2) / (d3 * d4)) * v22[1];
-
-  // return a + b + c + d;
-
-
-
   return <T>(cursor: Cursor<T>): number => {
-    // to do left extrapolation
-    // to do right extrapolation
-
     if ("x" in cursor && "y" in cursor) {
-      const x1 = points.sort((a: Point, b: Point) => b.x - a.x).find((i: Point) => i.x <= cursor["x"]);
-      const x2 = points.sort((a: Point, b: Point) => a.x - b.x).find((i: Point) => i.x >= cursor["x"]);
+      const xs1 = (a: Point, b: Point): number => b.x - a.x;
+      const xf1 = (i: Point): boolean => i.x <= cursor["x"];
+
+      const x1 = points.sort(xs1).find(xf1);
+
+      const xs2 = (a: Point, b: Point): number => a.x - b.x;
+      const xf2 = (i: Point): boolean => i.x >= cursor["x"];
+
+      const x2 = points.sort(xs2).find(xf2);
 
       if (!x1 || !x2) {
-        throw `Can't calculate double interpolation of x: '${cursor["x"]}'`;
+        throw `Can't calculate double interpolation for x: '${cursor["x"]}'`;
+      }
+      const ys1 = (a: Point, b: Point): number => b.y - a.y;
+      const yf1 = (i: Point): boolean => i.y <= cursor["y"];
+
+      const y1 = points.sort(ys1).find(yf1);
+      
+      const ys2 = (a: Point, b: Point): number => a.y - b.y;
+      const yf2 = (i: Point): boolean => i.y >= cursor["y"];
+
+      const y2 = points.sort(ys2).find(yf2);
+
+      if (!y1 || !y2) {
+        throw `Can't calculate double interpolation for y: '${cursor["y"]}'`;
       }
 
       if (x1.x == x2.x) {
-        return single(points.filter(i => i.x == x1.x).map(i => ({ x: i.y, v: i.v })))({ x: cursor["y"] });
-      }
+        const f = (i: Point): boolean => i.x == x1.x;
+        const m = (i: Point): { x: number, y: number } => ({ x: i.y, y: i.z });
 
-      const y1 = points.sort((a: Point, b: Point) => b.y - a.y).find((i: Point) => i.x <= cursor["y"]);
-      const y2 = points.sort((a: Point, b: Point) => a.y - b.y).find((i: Point) => i.x >= cursor["y"]);
-
-      if (!y1 || !y2) {
-        throw `Can't calculate double interpolation of y: '${cursor["y"]}'`;
+        return single(points.filter(f).map(m))({ x: cursor["y"] });
       }
 
       if (y1.y == y2.y) {
-        return single(points.filter(i => i.y == y1.y).map(i => ({ x: i.x, v: i.v })))({ x: cursor["x"] });
+        const f = (i: Point): boolean => i.y == y1.y;
+        const m = (i: Point): { x: number, y: number } => ({ x: i.x, y: i.z });
+
+        return single(points.filter(f).map(m))({ x: cursor["x"] });
       }
 
-      const v11 = points.find(i => i.x == x1.x && i.y == y1.y);
-      const v12 = points.find(i => i.x == x2.x && i.y == y1.y);
-      const v21 = points.find(i => i.x == x1.x && i.y == y2.y);
-      const v22 = points.find(i => i.x == x2.x && i.y == y2.y);
+      const z11 = points.find((i: Point): boolean => i.x == x1.x && i.y == y1.y);
+      const z12 = points.find((i: Point): boolean => i.x == x2.x && i.y == y1.y);
+      const z21 = points.find((i: Point): boolean => i.x == x1.x && i.y == y2.y);
+      const z22 = points.find((i: Point): boolean => i.x == x2.x && i.y == y2.y);
 
-      if (!v11 || !v12 || !v21 || !v22) {
-        throw `Can't calculate double interpolation of x: '${cursor["x"]}' and y: '${cursor["y"]}'`;
+      if (!z11 || !z12 || !z21 || !z22) {
+        throw `Can't calculate double interpolation for x: '${cursor["x"]}' and y: '${cursor["y"]}'`;
       }
 
-      const p1 = (((x2.x - cursor["x"]) * (y2.y - cursor["y"])) / ((x2.x - x1.x) * (y2.y - y1.y))) * v11.v;
-      const p2 = (((cursor["x"] - x1.x) * (y2.y - cursor["y"])) / ((x2.x - x1.x) * (y2.y - y1.y))) * v12.v;
-      const p3 = (((x2.x - cursor["x"]) * (cursor["y"] - y1.y)) / ((x2.x - x1.x) * (y2.y - y1.y))) * v21.v;
-      const p4 = (((cursor["x"] - x1.x) * (cursor["y"] - y1.y)) / ((x2.x - x1.x) * (y2.y - y1.y))) * v22.v;
+      const p1 = (((x2.x - cursor["x"]) * (y2.y - cursor["y"])) / ((x2.x - x1.x) * (y2.y - y1.y))) * z11.z;
+      const p2 = (((cursor["x"] - x1.x) * (y2.y - cursor["y"])) / ((x2.x - x1.x) * (y2.y - y1.y))) * z12.z;
+      const p3 = (((x2.x - cursor["x"]) * (cursor["y"] - y1.y)) / ((x2.x - x1.x) * (y2.y - y1.y))) * z21.z;
+      const p4 = (((cursor["x"] - x1.x) * (cursor["y"] - y1.y)) / ((x2.x - x1.x) * (y2.y - y1.y))) * z22.z;
 
       return p1 + p2 + p3 + p4;
     }
 
-    if ("v" in cursor && "x" in cursor) {
-      points.sort((a: Point, b: Point) => a.v - b.v);
-      // to do
+
+
+
+
+
+    
+
+
+
+    if ("z" in cursor && "x" in cursor) {
+      const x1 = points.sort((a: Point, b: Point): number => b.x - a.x).find((i: Point): boolean => i.x <= cursor["x"]);
+      const x2 = points.sort((a: Point, b: Point): number => a.x - b.x).find((i: Point): boolean => i.x >= cursor["x"]);
+
+      if (!x1 || !x2) {
+        throw `Can't calculate double interpolation for x: '${cursor["x"]}'`;
+      }
+
+      const z1 = points.filter((i: Point): boolean => i.x == x1.x);
+      const z2 = points.filter((i: Point): boolean => i.x == x2.x);
+
+      const p = z2.map((curr, i): { x: number, y: number } => {
+        const a = cursor["x"] - curr.x;
+        const b = z1[i]["z"] - curr.z;
+        const c = z1[i]["x"] - curr.x;
+        
+       return { x: (((a * b) / c) || 0) + curr.z, y: curr.y };
+      });
+
+      return single(p)({ x: cursor["z"] });
     }
 
-    if ("v" in cursor && "y" in cursor) {
-      points.sort((a: Point, b: Point) => a.v - b.v);
-      // to do
+    if ("z" in cursor && "y" in cursor) {
+      const y1 = points.sort((a: Point, b: Point): number => b.y - a.y).find((i: Point): boolean => i.y <= cursor["y"]);
+      const y2 = points.sort((a: Point, b: Point): number => a.y - b.y).find((i: Point): boolean => i.y >= cursor["y"]);
+
+      if (!y1 || !y2) {
+        throw `Can't calculate double interpolation for y: '${cursor["y"]}'`;
+      }
+
+      const z1 = points.filter((i: Point): boolean => i.y == y1.y);
+      const z2 = points.filter((i: Point): boolean => i.y == y2.y);
+
+
+      const p = z2.map((curr, i): { x: number, y: number } => {
+        const a = cursor["y"] - curr.y;
+        const b = z1[i]["z"] - curr.z;
+        const c = z1[i]["y"] - curr.y;
+        
+       return { x: (((a * b) / c) || 0) + curr.z, y: curr.x };
+      });
+
+      return single(p)({ x: cursor["z"] });
     }
 
-    throw "Can't calculate double interpolation, please provide correct martix data";
+    throw "Can't calculate double interpolation, please provide correct search parameters";
   };
 }

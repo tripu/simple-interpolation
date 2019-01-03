@@ -16,11 +16,11 @@ npm install simple-interpolation --save
   Simple Schema of Single interpolation
 
   ---|---|
-  x1 |v1 |
+  x1 |y1 |
   ---|---|
-   x | v |
+   x | y |
   ---|---|
-  x2 |v2 |
+  x2 |y2 |
   ---|---|
 ```
 Simple using way
@@ -28,10 +28,10 @@ Simple using way
 ```javascript
 import { single } from 'simple-interpolation';
 
-const points = [{ x: 1, v: 1}, { x: 2, v: 2 }];
+const points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
 
-single(points)({ x: 1.5 }); // v -> 1.5
-single(points)({ v: 1.5 }); // x -> 1.5
+single(points)({ x: 1.5 }); // y -> 1.5
+single(points)({ y: 1.5 }); // x -> 1.5
 ```
 
 Or you can using JavaScript alternative
@@ -39,11 +39,11 @@ Or you can using JavaScript alternative
 ```javascript
 var simple = require('simple-interpolation');
 
-var points = [{ x: 1, v: 1}, { x: 2, v: 2 }];
+var points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
 var single = simple.single(points);
 
-single({ x: 1.5 }); // v -> 1.5
-single({ v: 1.5 }); // x -> 1.5
+single({ x: 1.5 }); // y -> 1.5
+single({ y: 1.5 }); // x -> 1.5
 ```
 
 Or you can using JavaScript(Babale) alternative
@@ -51,12 +51,12 @@ Or you can using JavaScript(Babale) alternative
 ```javascript
 import { single } from 'simple-interpolation';
 
-const points = [{ x: 1, v: 1}, { x: 2, v: 2 }];
+const points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
 
 const f = single(points);
 
-f({ x: 1.5 }); // v -> 1.5
-f({ v: 1.5 }); // x -> 1.5
+f({ x: 1.5 }); // y -> 1.5
+f({ y: 1.5 }); // x -> 1.5
 ```
 
 Or you can using TypeScript alternative
@@ -64,12 +64,12 @@ Or you can using TypeScript alternative
 ```typescript
 import { single } from "simple-interpolation";
 
-const points = [{ x: 1, v: 1}, { x: 2, v: 2 }];
+const points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
 
 const f = single(points);
 
-f({ x: 1.5 }); // v -> 1.5
-f({ v: 1.5 }); // x -> 1.5
+f({ x: 1.5 }); // y -> 1.5
+f({ y: 1.5 }); // x -> 1.5
 ```
 
 ## Module Double Interpolation
@@ -79,11 +79,11 @@ f({ v: 1.5 }); // x -> 1.5
 
      |x1 | x |x2 |
   ---|---|---|---|
-  y1 |v11|   |v12|
+  y1 |z11|   |z12|
   ---|---|---|---|
-   y |   | v |   |
+   y |   | z |   |
   ---|---|---|---|
-  y2 |v21|   |v22|
+  y2 |z21|   |z22|
   ---|---|---|---|
 ```
 
@@ -92,24 +92,24 @@ Simple using way
 ```javascript
 import { double } from 'simple-interpolation';
 
-const points = [{ x: 1, y: 1, v: 11 }, { x: 2, y: 1, v: 12 }, { x: 1, y: 2, v: 21 }, { x: 2, y: 2, v: 22 }];
+const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
 
-double(points)({ x: 1.5, y: 1.5 }); // v -> 1.5
-double(points)({ x: 1.5, v: 1.5 }); // y -> 1.5
-double(points)({ y: 1.5, v: 1.5 }); // x -> 1.5
+double(points)({ x: 1.5, y: 1.5 }); // z -> 16.5
+double(points)({ x: 1.5, z: 16.5 }); // y -> 1.5
+double(points)({ y: 1.5, z: 16.5 }); // x -> 1.5
 ```
 
 Or you can using JavaScript alternative
 
 ```javascript
 var simple = require('simple-interpolation');
-var points = [{ x: 1, y: 1, v: 11 }, { x: 2, y: 1, v: 12 }, { x: 1, y: 2, v: 21 }, { x: 2, y: 2, v: 22 }];
+var points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
 
 var f = simple.double(points);
 
-f({ x: 1.5, y: 1.5 }); // v -> 1.5
-f({ x: 1.5, v: 1.5 }); // y -> 1.5
-f({ y: 1.5, v: 1.5 }); // x -> 1.5
+f({ x: 1.5, y: 1.5 }); // z -> 16.5
+f({ x: 1.5, z: 16.5 }); // y -> 1.5
+f({ y: 1.5, z: 16.5 }); // x -> 1.5
 ```
 
 Or you can using JavaScript(Babale) alternative
@@ -117,13 +117,13 @@ Or you can using JavaScript(Babale) alternative
 ```javascript
 import { double } from 'simple-interpolation';
 
-const points = [{ x: 1, y: 1, v: 11 }, { x: 2, y: 1, v: 12 }, { x: 1, y: 2, v: 21 }, { x: 2, y: 2, v: 22 }];
+const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
 
 const f = double(points);
 
-f({ x: 1.5, y: 1.5 }); // v -> 1.5
-f({ x: 1.5, v: 1.5 }); // y -> 1.5
-f({ y: 1.5, v: 1.5 }); // x -> 1.5
+f({ x: 1.5, y: 1.5 }); // z -> 16.5
+f({ x: 1.5, z: 1.5 }); // y -> 1.5
+f({ y: 1.5, z: 1.5 }); // x -> 1.5
 ```
 
 Or you can using TypeScript alternative
@@ -131,13 +131,13 @@ Or you can using TypeScript alternative
 ```typescript
 import { double } from "simple-interpolation";
 
-const points = [{ x: 1, y: 1, v: 11 }, { x: 2, y: 1, v: 12 }, { x: 1, y: 2, v: 21 }, { x: 2, y: 2, v: 22 }];
+const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
 
 const f = double(points);
 
-f({ x: 1.5, y: 1.5 }); // v -> 1.5
-f({ x: 1.5, v: 1.5 }); // y -> 1.5
-f({ y: 1.5, v: 1.5 }); // x -> 1.5
+f({ x: 1.5, y: 1.5 }); // z -> 16.5
+f({ x: 1.5, z: 16.5 }); // y -> 1.5
+f({ y: 1.5, z: 16.5 }); // x -> 1.5
 ```
 
 ## Module Test 

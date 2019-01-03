@@ -1,7 +1,7 @@
 /** Input Point Structure Interface */
 interface Point {
   x: number;
-  v: number;
+  y: number;
 }
 
 /** Search Point Cursor Type */
@@ -15,14 +15,14 @@ type Cursor<T, U = { [K in keyof T]: number }> = U;
  */
 function format<T>(cursor: Cursor<T>, points: Point[]): [number, Array<Array<number>>] {
   if ("x" in cursor) {
-    points.sort((a: Point, b: Point) => a.x - b.x);
-    return [cursor["x"], points.map((i: Point) => [i.x, i.v])];
+    points.sort((a: Point, b: Point): number => a.x - b.x);
+    return [cursor["x"], points.map((i: Point): Array<number> => [i.x, i.y])];
   }
-  if ("v" in cursor) {
-    points.sort((a: Point, b: Point) => a.v - b.v);
-    return [cursor["v"], points.map((i: Point) => [i.v, i.x])];
+  if ("y" in cursor) {
+    points.sort((a: Point, b: Point): number => a.y - b.y);
+    return [cursor["y"], points.map((i: Point): Array<number> => [i.y, i.x])];
   }
-  throw "Can't calculate single interpolation, please provide correct martix data";
+  throw "Can't calculate single interpolation, please provide correct search parameters";
 }
 
 /**
