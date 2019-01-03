@@ -74,7 +74,7 @@ f({ y: 1.5 }); // x -> 1.5
 
 ## Module Double Interpolation
 
-```sh
+```
   Simple Schema of Double interpolation
 
      |x1 | x |x2 |
@@ -87,7 +87,7 @@ f({ y: 1.5 }); // x -> 1.5
   ---|---|---|---|
 ```
 
-Simple using way
+Simple way
 
 ```javascript
 import { double } from 'simple-interpolation';
@@ -99,7 +99,7 @@ double(points)({ x: 1.5, z: 16.5 }); // y -> 1.5
 double(points)({ y: 1.5, z: 16.5 }); // x -> 1.5
 ```
 
-Or you can using JavaScript alternative
+Or you can use JavaScript
 
 ```javascript
 var simple = require('simple-interpolation');
@@ -112,7 +112,7 @@ f({ x: 1.5, z: 16.5 }); // y -> 1.5
 f({ y: 1.5, z: 16.5 }); // x -> 1.5
 ```
 
-Or you can using JavaScript(Babale) alternative
+Or you can use JavaScript(Babale)
 
 ```javascript
 import { double } from 'simple-interpolation';
@@ -126,7 +126,7 @@ f({ x: 1.5, z: 1.5 }); // y -> 1.5
 f({ y: 1.5, z: 1.5 }); // x -> 1.5
 ```
 
-Or you can using TypeScript alternative
+Or you can use TypeScript
 
 ```typescript
 import { double } from "simple-interpolation";
