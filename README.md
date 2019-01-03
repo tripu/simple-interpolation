@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/dmytropadychak/simple-interpolation/badge.svg?branch=master)](https://coveralls.io/github/dmytropadychak/simple-interpolation?branch=master)
+
 # Simple Interpolation
 
 A Simple interpolation Node.js module that construct new data points within the range of a discrete set of known data points
