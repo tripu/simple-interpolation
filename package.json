@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "cover": "nyc mocha src/**/*.spec.ts --recursive -c -r ts-node/register -R spec",
+    "cover": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "build": "tsc -p tsconfig.json",
     "tslint": "tslint -c tslint.json src/**/*.ts",
     "test": "mocha src/**/*.spec.ts --recursive -c -r ts-node/register -R spec"
@@ -37,6 +37,7 @@
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
+    "coveralls": "^3.0.2",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",
     "ts-node": "^7.0.1",
