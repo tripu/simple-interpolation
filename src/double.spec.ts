@@ -1,4 +1,5 @@
 import { describe, it } from "mocha";
+
 import { expect } from "chai";
 
 import { double } from "./double";
@@ -48,55 +49,36 @@ describe("double.ts", () => {
 
   it("should throw extrapolation error if incorrect matrix data", () => {
     const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }];
-    const params = { x: 1.5 };
+    const params = { x: 1.5, y: 1.5 };
 
-    expect(() =>
-      double(points)(params)
-    ).to.throw(/Can't calculate double interpolation, please provide more points/);
+    expect(() => double(points)(params)).to.throw(/Can't calculate double interpolation, please provide more points/);
   });
 
-  it("should throw extrapolation error if incorrect serarch parameters", () => {
-    const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
-    const params = { r: 1.5 };
-    
-    expect(() =>
-      double(points)(params)
-    ).to.throw(/Can't calculate double interpolation, please provide correct search parameters/);
-  });
-  
-  it("should throw extrapolation error if incorrect 'x' variable and calculate 'z' variable", () => {
+  it("should throw extrapolation error if incorrect value of 'x' variable, calculation by 'x', 'y'", () => {
     const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
     const params = { x: -1.5, y: 1 };
-    
-    expect(() =>
-      double(points)(params)
-    ).to.throw(/Can't calculate double interpolation for x: '-1.5'/);
+
+    expect(() => double(points)(params)).to.throw(/Can't calculate double interpolation for x: '-1.5'/);
   });
 
-  it("should throw extrapolation error if incorrect 'x' variable and calculate 'y' variable", () => {
+  it("should throw extrapolation error if incorrect value of 'x' variable, calculation by 'x', 'z'", () => {
     const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
     const params = { x: -1.5, z: 16.5 };
-    
-    expect(() =>
-      double(points)(params)
-    ).to.throw(/Can't calculate double interpolation for x: '-1.5'/);
+
+    expect(() => double(points)(params)).to.throw(/Can't calculate double interpolation/);
   });
 
-  it("should throw extrapolation error if incorrect 'y' variable and calculate 'z' variable", () => {
+  it("should throw extrapolation error if incorrect value of 'y' variable, calculation by 'y', 'x'", () => {
     const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
-    const params = { x: 2, y: 3 };
-    
-    expect(() =>
-      double(points)(params)
-    ).to.throw(/Can't calculate double interpolation for y: '3'/);
+    const params = { x: 1, y: -1.5 };
+
+    expect(() => double(points)(params)).to.throw(/Can't calculate double interpolation for y: '-1.5'/);
   });
 
-  it("should throw extrapolation error if incorrect 'y' variable and calculate 'x' variable", () => {
+  it("should throw extrapolation error if incorrect value of 'y' variable, calculation by 'y', 'z'", () => {
     const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
     const params = { y: -1.5, z: 16.5 };
-    
-    expect(() =>
-      double(points)(params)
-    ).to.throw(/Can't calculate double interpolation for y: '-1.5'/);
+
+    expect(() => double(points)(params)).to.throw(/Can't calculate double interpolation/);
   });
 });

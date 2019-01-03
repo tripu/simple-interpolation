@@ -1,4 +1,9 @@
 {
 	"extends": "tslint:recommended",
-	"interface-name": [true, "never-prefix"]
+  "rules": {
+		"interface-name" : [true, "never-prefix"],
+		"one-line": [true, "check-catch", "check-finally", "check-else"],
+		"no-unused-expression": [false, "allow-fast-null-checks"],
+		"no-empty-interface": false
+  }
 }

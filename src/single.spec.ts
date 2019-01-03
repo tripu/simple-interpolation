@@ -1,4 +1,5 @@
 import { describe, it } from "mocha";
+
 import { expect } from "chai";
 
 import { single } from "./single";
@@ -45,7 +46,6 @@ describe("single.ts", () => {
 
     expect(single(points)(params)).to.equal(-1.5);
   });
-  
 
   it("should do right extrapolation 'x' variable", () => {
     const points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
@@ -65,17 +65,6 @@ describe("single.ts", () => {
     const points = [{ x: 1, y: 1}];
     const params = { x: 1.5 };
 
-    expect(() =>
-      single(points)(params)
-    ).to.throw(/Can't calculate single interpolation, please provide more points/);
-  });
-
-  it("should throw extrapolation error if incorrect serarch parameters", () => {
-    const points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
-    const params = { r: 1.5 };
-    
-    expect(() =>
-      single(points)(params)
-    ).to.throw(/Can't calculate single interpolation, please provide correct search parameters/);
+    expect(() => single(points)(params)).to.throw(/Can't calculate single interpolation, please provide more points/);
   });
 });
