@@ -5,11 +5,18 @@ import { expect } from "chai";
 import { double } from "./double";
 
 describe("double.ts", () => {
-  it("should do extrapolation 'z' variable by parameters equal matrix data", () => {
+  it("should do extrapolation 'z' variable by parameter 'x' equal matrix data", () => {
     const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
     const params = { x: 2, y: 2 };
 
     expect(double(points)(params)).to.equal(22);
+  });
+
+  it("should do extrapolation 'z' variable by parameter 'y' equal matrix data", () => {
+    const points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
+    const params = { x: 1.5, y: 2 };
+
+    expect(double(points)(params)).to.equal(21.5);
   });
 
   it("should do extrapolation 'z' variable by parameters between matrix data", () => {
