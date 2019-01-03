@@ -12,7 +12,7 @@ npm install simple-interpolation --save
 
 ## Module Single Interpolation
 
-```sh
+```
   Simple Schema of Single interpolation
 
   ---|---|
