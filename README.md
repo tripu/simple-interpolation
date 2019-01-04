@@ -3,7 +3,7 @@
 
 # Simple Interpolation
 
-A Simple interpolation Node.js module that construct new data points within the range of a discrete set of known data points
+A simple interpolation module that construct new data points within the range of a discrete set of known data points
 
 ## Module Installation 
 
