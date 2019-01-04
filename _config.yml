@@ -2,6 +2,4 @@ theme: jekyll-theme-architect
 title: [simple interpolation]
 description: [A simple interpolation module that construct new data points within the range of a discrete set of known data points]
 show_downloads: true
-is_user_page:   true
-download:
-  source: "https://github.com/dmytropaduchak/simple-interpolation/archive/master.zip"
+zip_url: "https://github.com/dmytropaduchak/simple-interpolation/archive/master.zip"
