@@ -13,12 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dmytropadychak/simple-interpolation.git"
+    "url": "git+https://github.com/dmytropaduchak/simple-interpolation.git"
   },
   "author": {
     "name": "Dmytro Paduchak",
     "email": "dmytro.paduchak@gmail.com",
-    "url": "https://github.com/dmytropadychak"
+    "url": "https://github.com/dmytropaduchak"
   },
   "keywords": [
     "simple",
@@ -30,9 +30,9 @@
     "numeric"
   ],
   "bugs": {
-    "url": "https://github.com/dmytropadychak/simple-interpolation/issues"
+    "url": "https://github.com/dmytropaduchak/simple-interpolation/issues"
   },
-  "homepage": "https://github.com/dmytropadychak/simple-interpolation#readme",
+  "homepage": "https://github.com/dmytropaduchak/simple-interpolation#readme",
   "license": "ISC",
   "devDependencies": {
     "@types/chai": "^4.1.7",
