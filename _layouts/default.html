@@ -18,7 +18,18 @@
     
     <script>
       $(document).ready(function() {
-        console.log('----------');
+        var points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
+        var f = single(points);
+
+        console.log(f({ x: 1.5 }));
+        console.log(f({ y: 1.5 }));
+
+        var points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
+        var f = double(points);
+
+        console.log(f({ x: 1.5, y: 1.5 }));
+        console.log(f({ x: 1.5, z: 16.5 }));
+        console.log(f({ y: 1.5, z: 16.5 }));
       });
     </script>
   
@@ -28,6 +39,11 @@
       }
       pre code {
         background-color: transparent;
+      }
+      input {
+        width: 50px;
+        padding: 5px;
+        height: 30px;
       }
     </style>
 {% seo %}
@@ -55,16 +71,49 @@
           <div>
             <h3>Single Interpolation</h3>
             <form action="#" id="si-single">
-
-              <input type="submit" class="button" value="CALCULATE">
+              <table>
+                <tbody>
+                  <tr>
+                    <td><input type="number" name="x1" tabindex="1"></td>
+                    <td><input type="number" name="x2" tabindex="2"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" name="y1" tabindex="4"></td>
+                    <td><input type="number" name="y2" tabindex="5"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" name="y1" tabindex="4"></td>
+                    <td><input type="number" name="y2" tabindex="5"></td>
+                  </tr>
+                </tbody>
+              </table>
+              <button type="submit" class="button">CALCULATE</button>
             </form>
           </div>
 
           <div>
             <h3>Double Interpolation</h3>
             <form action="#" id="si-double">
-              
-              <input type="submit" class="button" value="CALCULATE">
+              <table>
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td><input type="number" name="x2" tabindex="2"></td>
+                    <td><input type="number" name="x3" tabindex="3"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" name="y1" tabindex="4"></td>
+                    <td><input type="number" name="y2" tabindex="5"></td>
+                    <td><input type="number" name="y3" tabindex="6"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" name="y2" tabindex="7"></td>
+                    <td><input type="number" name="y3" tabindex="8"></td>
+                    <td><input type="number" name="y1" tabindex="9"></td>
+                  </tr>
+                </tbody>
+              </table>
+              <button type="submit" class="button">CALCULATE</button>
             </form>
           </div>
           {{ content }}
@@ -96,5 +145,140 @@
         ga('send', 'pageview');
       </script>
     {% endif %}
+    <script>
+      /**
+       * Single interpolation store
+       * @param {string} points interpolation matrix data
+       * @return {void} interpolation execut method
+       */
+      function single(points) {
+          if (points.length <= 1) {
+              throw new Error("Can't calculate single interpolation, please provide more points");
+          }
+          /**
+           * Format matrix points to simple structure points
+           * @param {string} params interpolation params
+           * @param {string} points interpolation matrix
+           * @return {array} formatted points
+           */
+          function format(params, points) {
+              if ("x" in params) {
+                  points.sort(function (a, b) { return a.x - b.x; });
+                  return [params.x, points.map(function (i) { return [i.x, i.y]; })];
+              }
+              if ("y" in params) {
+                  points.sort(function (a, b) { return a.y - b.y; });
+                  return [params.y, points.map(function (i) { return [i.y, i.x]; })];
+              }
+              throw new Error("Can't calculate single interpolation");
+          }
+
+          return function (params) {
+              var _a = format(params, points), c = _a[0], p = _a[1];
+              var n = points.length - 1;
+              if (c <= p[0][0]) {
+                  return p[0][1] + (c - p[0][0]) * (p[1][1] - p[0][1]) / (p[1][0] - p[0][0]);
+              }
+              if (c >= p[n][0]) {
+                  return p[n][1] + (c - p[n][0]) * (p[n][1] - p[n - 1][1]) / (p[n][0] - p[n - 1][0]);
+              }
+              for (var i = 0; i < n; i += 1) {
+                  if (c > p[i][0] && c <= p[i + 1][0]) {
+                      return p[i][1] + (c - p[i][0]) * (p[i + 1][1] - p[i][1]) / (p[i + 1][0] - p[i][0]);
+                  }
+              }
+              throw new Error("Can't calculate single interpolation");
+          };
+      }
+      /**
+       * Double interpolation store
+       * @param {string} points interpolation matrix data
+       * @return {void} interpolation execut method
+       */
+      function double(points) {
+          if (points.length <= 3) {
+              throw new Error("Can't calculate double interpolation, please provide more points");
+          }
+
+          /**
+           * Format matrix points to simple structure points
+           * @param {string} params interpolation params
+           * @param {string} points interpolation matrix
+           * @return {array} formatted points
+           */
+          function format(params, points) {
+              if ("x" in params) {
+                  return [params.x, points.map(function (i) { return [i.x, i.y, i.z]; })];
+              }
+              if ("y" in params) {
+                  return [params.y, points.map(function (i) { return [i.y, i.x, i.z]; })];
+              }
+              throw new Error("Can't calculate double interpolation");
+          }
+          return function (params) {
+              if ("x" in params && "y" in params) {
+                  var sortX1 = function (a, b) { return b.x - a.x; };
+                  var findX1 = function (i) { return i.x <= params.x; };
+                  var x1_1 = points.sort(sortX1).find(findX1);
+                  var sortX2 = function (a, b) { return a.x - b.x; };
+                  var findX2 = function (i) { return i.x >= params.x; };
+                  var x2_1 = points.sort(sortX2).find(findX2);
+                  if (!x1_1 || !x2_1) {
+                      throw new Error("Can't calculate double interpolation for x: '" + params.x + "'");
+                  }
+                  var sortY1 = function (a, b) { return b.y - a.y; };
+                  var findY1 = function (i) { return i.y <= params.y; };
+                  var y1_1 = points.sort(sortY1).find(findY1);
+                  var sortY2 = function (a, b) { return a.y - b.y; };
+                  var findY2 = function (i) { return i.y >= params.y; };
+                  var y2_1 = points.sort(sortY2).find(findY2);
+                  if (!y1_1 || !y2_1) {
+                      throw new Error("Can't calculate double interpolation for y: '" + params.y + "'");
+                  }
+                  if (x1_1.x === x2_1.x) {
+                      var filter = function (i) { return i.x === x1_1.x; };
+                      var map = function (i) { return ({ x: i.y, y: i.z }); };
+                      return single(points.filter(filter).map(map))({ x: params.y });
+                  }
+                  if (y1_1.y === y2_1.y) {
+                      var filter = function (i) { return i.y === y1_1.y; };
+                      var map = function (i) { return ({ x: i.x, y: i.z }); };
+                      return single(points.filter(filter).map(map))({ x: params.x });
+                  }
+                  var z11 = points.find(function (i) { return i.x === x1_1.x && i.y === y1_1.y; });
+                  var z12 = points.find(function (i) { return i.x === x2_1.x && i.y === y1_1.y; });
+                  var z21 = points.find(function (i) { return i.x === x1_1.x && i.y === y2_1.y; });
+                  var z22 = points.find(function (i) { return i.x === x2_1.x && i.y === y2_1.y; });
+                  if (!z11 || !z12 || !z21 || !z22) {
+                      throw new Error("Can't calculate double interpolation for x: '" + params.x + "' and y: '" + params.y + "'");
+                  }
+                  var p1 = (((x2_1.x - params.x) * (y2_1.y - params.y)) / ((x2_1.x - x1_1.x) * (y2_1.y - y1_1.y))) * z11.z;
+                  var p2 = (((params.x - x1_1.x) * (y2_1.y - params.y)) / ((x2_1.x - x1_1.x) * (y2_1.y - y1_1.y))) * z12.z;
+                  var p3 = (((x2_1.x - params.x) * (params.y - y1_1.y)) / ((x2_1.x - x1_1.x) * (y2_1.y - y1_1.y))) * z21.z;
+                  var p4 = (((params.x - x1_1.x) * (params.y - y1_1.y)) / ((x2_1.x - x1_1.x) * (y2_1.y - y1_1.y))) * z22.z;
+                  return p1 + p2 + p3 + p4;
+              }
+              if ("z" in params) {
+                  var _a = format(params, points), c_1 = _a[0], p = _a[1];
+                  var sortMin = function (a, b) { return b[0] - a[0]; };
+                  var findMin = function (i) { return i[0] <= c_1; };
+                  var min_1 = p.sort(sortMin).find(findMin);
+                  var sortMax = function (a, b) { return a[0] - b[0]; };
+                  var findMax = function (i) { return i[0] >= c_1; };
+                  var max_1 = p.sort(sortMax).find(findMax);
+                  if (!min_1 || !max_1) {
+                      throw new Error("Can't calculate double interpolation");
+                  }
+                  var p1_1 = p.filter(function (i) { return i[0] === min_1[0]; });
+                  var p2 = p.filter(function (i) { return i[0] === max_1[0]; });
+                  var map = function (curr, i) {
+                      return ({ x: (((((c_1 - curr[0]) * (p1_1[i][2] - curr[2])) / (p1_1[i][0] - curr[0])) || 0) + curr[2]), y: curr[1] });
+                  };
+                  return single(p2.map(map))({ x: params.z });
+              }
+              throw new Error("Can't calculate double interpolation");
+          };
+      }
+    </script>
   </body>
 </html>
