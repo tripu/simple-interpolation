@@ -34,19 +34,33 @@
     </script>
   
     <style>
+      #si-single p, #si-double p {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+        font-size: 2.8em;
+        font-weight: normal;
+        color: #474747;
+        text-indent: 6px;
+        letter-spacing: -1px;
+      }
       header h1 {
         font-size: 64px;
       }
       pre code {
         background-color: transparent;
       }
-      input {
+      #si-single input, #si-double input {
         width: 50px;
         padding: 5px;
         height: 30px;
       }
-      table, table td {
+      #si-single table, #si-single table td,
+      #si-double table, #si-single table td {
         border: none;
+      }
+      #si-double {
+        margin-bottom: 30px;
       }
     </style>
 {% seo %}
@@ -71,9 +85,9 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <div>
+          <div id="si-single">
             <p>Example of Single Interpolation</p>
-            <form action="#" id="si-single">
+            <form action="#">
               <table>
                 <tbody>
                   <tr>
@@ -94,9 +108,9 @@
             </form>
           </div>
 
-          <div>
+          <div id="si-double">
             <p>Example of Double Interpolation</p>
-            <form action="#" id="si-double">
+            <form action="#">
               <table>
                 <tbody>
                   <tr>
