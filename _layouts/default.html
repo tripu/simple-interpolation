@@ -42,9 +42,27 @@
         border: solid 1px #f2f2f2;
         position: sticky;
       }
+      .x {
+        border: 1px solid #2879d0;
+      }
+      .y {
+        border: 1px solid #D25068;
+      }
+      .z {
+        border: 1px solid #82c8a0;
+      }
+
+      .x.active {
+        color: #2879d0;
+      }
+      .y.active {
+        color: #D25068;
+      }
+      .z.active {
+        color: #82c8a0;
+      }
       #si-single button, #si-double button  {
-        width: 100%;
-        margin: 20px 10px 10px 10px;
+        margin: 20px 7px 7px;
       }
       #si-single p, #si-double p {
         margin-top: 0;
@@ -63,8 +81,9 @@
         background-color: transparent;
       }
       #si-single input, #si-double input {
-        height: 30px;
+        height: 40px;
         width: 100%;
+        padding: 6px;
         box-sizing: border-box;
       }
       #si-single table, #si-single table td,
@@ -202,16 +221,16 @@
               <table>
                 <tbody>
                   <tr>
-                    <td><input type="number" name="x1" tabindex="1"></td>
-                    <td><input type="number" name="x2" tabindex="2"></td>
+                    <td><input type="number" class="x" name="x1" placeholder="X1" tabindex="1"></td>
+                    <td><input type="number" class="y" name="y1" placeholder="Y1" tabindex="2"></td>
                   </tr>
                   <tr>
-                    <td><input type="number" name="y1" tabindex="4"></td>
-                    <td><input type="number" name="y2" tabindex="5"></td>
+                    <td><input type="number" class="x" name="x2" placeholder="X2" tabindex="3"></td>
+                    <td><input type="number" class="y" name="y2" placeholder="Y2" tabindex="4"></td>
                   </tr>
                   <tr>
-                    <td><input type="number" name="y1" tabindex="4"></td>
-                    <td><input type="number" name="y2" tabindex="5"></td>
+                    <td><input type="number" class="x" name="x3" placeholder="X3" tabindex="5"></td>
+                    <td><input type="number" class="y" name="y3" placeholder="Y3" tabindex="6"></td>
                   </tr>
                 </tbody>
               </table>
@@ -226,18 +245,27 @@
                 <tbody>
                   <tr>
                     <td></td>
-                    <td><input type="number" name="x1" tabindex="2"></td>
-                    <td><input type="number" name="x2" tabindex="3"></td>
+                    <td><input type="number" class="x" name="x1" placeholder="X1" tabindex="1"></td>
+                    <td><input type="number" class="x" name="x" placeholder="X" tabindex="2"></td>
+                    <td><input type="number" class="x" name="x2" placeholder="X2" tabindex="3"></td>
                   </tr>
                   <tr>
-                    <td><input type="number" name="y1" tabindex="4"></td>
-                    <td><input type="number" name="y2" tabindex="5"></td>
-                    <td><input type="number" name="y3" tabindex="6"></td>
+                    <td><input type="number" class="y" name="y1" placeholder="Y1" tabindex="4"></td>
+                    <td><input type="number" class="z" name="z11" placeholder="Z11" tabindex="5"></td>
+                    <td></td>
+                    <td><input type="number" class="z" name="z12" placeholder="Z12" tabindex="6"></td>
                   </tr>
                   <tr>
-                    <td><input type="number" name="y2" tabindex="7"></td>
-                    <td><input type="number" name="y3" tabindex="8"></td>
-                    <td><input type="number" name="y1" tabindex="9"></td>
+                    <td><input type="number" class="y" name="y" placeholder="Y" tabindex="7"></td>
+                    <td></td>
+                    <td><input type="number" class="z" name="z" placeholder="Z" tabindex="8"></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" class="y" name="y2" placeholder="Y2" tabindex="9"></td>
+                    <td><input type="number" class="z" name="z21" placeholder="Z21" tabindex="10"></td>
+                    <td></td>
+                    <td><input type="number" class="z" name="z22" placeholder="Z22" tabindex="11"></td>
                   </tr>
                 </tbody>
               </table>
