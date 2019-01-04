@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/dmytropadychak/simple-interpolation.svg?branch=master)](https://travis-ci.org/dmytropadychak/simple-interpolation)
-[![Coverage Status](https://coveralls.io/repos/github/dmytropadychak/simple-interpolation/badge.svg?branch=master)](https://coveralls.io/github/dmytropadychak/simple-interpolation?branch=master)
+[![Build Status](https://travis-ci.org/dmytropaduchak/simple-interpolation.svg?branch=master)](https://travis-ci.org/dmytropaduchak/simple-interpolation)
+[![Coverage Status](https://coveralls.io/repos/github/dmytropaduchak/simple-interpolation/badge.svg?branch=master)](https://coveralls.io/github/dmytropaduchak/simple-interpolation?branch=master)
 
 # Simple Interpolation
 
