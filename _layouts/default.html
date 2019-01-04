@@ -18,6 +18,40 @@
     
     <script>
       $(document).ready(function() {
+
+        $('#si-single button').on('click', function(ev) {
+          ev.preventDefault();
+
+          var x = $('#si-single input.x').toArray().map(function(i) {
+            return $(i).val();
+          });
+
+          var y = $('#si-single input.y').toArray().map(function(i) {
+            return $(i).val();
+          });
+
+          var p = x.map(function(c, i) {
+            return { x: c, y: y[i] };
+          });
+
+          var points = p.filter(function(i) {
+            return i.x.length || i.y.length;
+          });
+
+          var params = p.filter(function(i) {
+            return !i.x.length || !i.y.length;
+          });
+          
+          if (params.length) {
+
+            return;
+          }
+
+          console.log(x);
+
+          console.log(y);
+          
+        });
         var points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
         var f = single(points);
 
@@ -62,9 +96,9 @@
         color: #82c8a0;
       }
       #si-single button, #si-double button  {
-        margin: 20px 7px 7px;
+        margin: 0;
       }
-      #si-single p, #si-double p {
+      #si-single .title, #si-double .title {
         margin-top: 0;
         margin-bottom: 0;
         font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
@@ -192,6 +226,11 @@
           background-image:-o-linear-gradient(top, #2879d0, #2e7bcf);
           background-image:linear-gradient(top, #2879d0, #2e7bcf);
       }
+      .si-block {
+        margin-left: 7px;
+        display: flex;
+        align-items: center;
+      }
     </style>
 {% seo %}
   </head>
@@ -216,7 +255,7 @@
       <div class="inner clearfix">
         <section id="main-content">
           <div id="si-single">
-            <p>Example of Single Interpolation</p>
+            <p class="title">Example of Single Interpolation</p>
             <form action="#">
               <table>
                 <tbody>
@@ -234,12 +273,15 @@
                   </tr>
                 </tbody>
               </table>
-              <button type="submit" class="si-button blue">CALCULATE</button>
+              <div class="si-block">
+                <button type="submit" class="si-button blue">CALCULATE</button>
+                <p>Please provide search variable, just clear input what you need calculate</p>
+              </div>
             </form>
           </div>
 
           <div id="si-double">
-            <p>Example of Double Interpolation</p>
+            <p class="title">Example of Double Interpolation</p>
             <form action="#">
               <table>
                 <tbody>
@@ -269,7 +311,10 @@
                   </tr>
                 </tbody>
               </table>
-              <button type="submit" class="si-button blue">CALCULATE</button>
+              <div class="si-block">
+                <button type="submit" class="si-button blue">CALCULATE</button>
+                <p>Please provide search variable, just clear input what you need calculate</p>
+              </div>
             </form>
           </div>
           {{ content }}
