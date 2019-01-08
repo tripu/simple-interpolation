@@ -18,11 +18,11 @@
     
     <script>
       $(document).ready(function() {
-        function error() {
+        function error(el, msg) {
           $('.si-block p').text('');
           $('.si-block p').addClass('hidden');
-          $('#si-single .si-block p').text('Please provide search variable, just clear input what you need calculate');
-          $('#si-single .si-block p').removeClass('hidden');
+          $(el +' .si-block p').text(msg);
+          $(el + '.si-block p').removeClass('hidden');
 
           setTimeout(function() {
             $('.si-block p').text('');
@@ -44,9 +44,10 @@
             return { idX: c.id, idY: y[i].id, x: c.x, y: y[i].y };
           });
 
-
           var points = p.filter(function(i) {
             return i.x.length && i.y.length;
+          }).map(function(i) {
+            return { x: Number(i.x), y: Number(i.y) };
           });
 
           var params = p.filter(function(i) {
@@ -58,31 +59,55 @@
             return;
           }
 
-          if (points.length < 2) {
+          if (points.length < 1) {
             error('#si-single', 'Please provide more points');
             return;
           }
-          console.log(points);
-          console.log(params);
 
+          try {
+            if (params[0].x.length) {
+              var calculate = single(points)({ x: Number(params[0].x) });
 
-          console.log(x);
+              $('input[name="'+params[0].idY+'"').val(calculate);
+              $('input[name="'+params[0].idY+'"').addClass('active');
 
-          console.log(y);
-          
+              setTimeout(function() {
+                $('input[name="'+params[0].idY+'"').removeClass('active');
+              }, 4000);
+              return;
+            }
+
+            if (params[0].y.length) {
+              var calculate = single(points)({ y: Number(params[0].y) });
+
+              $('input[name="'+params[0].idX+'"').val(calculate);
+              $('input[name="'+params[0].idX+'"').addClass('active');
+
+              setTimeout(function() {
+                $('input[name="'+params[0].idX+'"').removeClass('active');
+              }, 4000);
+              return;
+            }
+
+            error('#si-single', 'Please provide correct search params');
+          } catch(err) {
+            error('#si-single', 'Can\'t calculate single interpolation');
+          }
         });
-        var points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
-        var f = single(points);
 
-        console.log(f({ x: 1.5 }));
-        console.log(f({ y: 1.5 }));
 
-        var points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
-        var f = double(points);
+        // var points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
+        // var f = single(points);
 
-        console.log(f({ x: 1.5, y: 1.5 }));
-        console.log(f({ x: 1.5, z: 16.5 }));
-        console.log(f({ y: 1.5, z: 16.5 }));
+        // console.log(f({ x: 1.5 }));
+        // console.log(f({ y: 1.5 }));
+
+        // var points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
+        // var f = double(points);
+
+        // console.log(f({ x: 1.5, y: 1.5 }));
+        // console.log(f({ x: 1.5, z: 16.5 }));
+        // console.log(f({ y: 1.5, z: 16.5 }));
       });
     </script>
   
@@ -109,13 +134,16 @@
       }
 
       .x.active {
-        color: #2879d0;
+        color: #fff;
+        background-color: #2879d0;
       }
       .y.active {
-        color: #D25068;
+        color: #fff;
+        background-color: #D25068;
       }
       .z.active {
-        color: #82c8a0;
+        color: #fff;
+        background-color: #82c8a0;
       }
       #si-single button, #si-double button  {
         margin: 0;
@@ -257,9 +285,7 @@
       }
       .si-block p {
         font-size: 14px;
-        margin: 0;
-        float: right;
-        width: 390px;
+        margin: 15px 0 0 0;
         color: red;
       }
     </style>
