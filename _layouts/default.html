@@ -248,7 +248,7 @@
           function notification(type, msg) {
             $('.alert-container').append(`
               <div class="${Math.random().toString(36).substr(2, 5)} alert alert-${type}">
-                <h4 class="alert-heading">${type[0].toUpperCase()}${type.slice(1)}!</h4>
+                <strong class="alert-heading">${type[0].toUpperCase()}${type.slice(1)}!</strong><br>
                 ${msg}
               </div>
             `);
