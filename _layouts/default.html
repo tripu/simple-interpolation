@@ -16,110 +16,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     
-    <script>
-      $(document).ready(function() {
-        $('.alert-container .close').on('click', function(ev) {
-          ev.preventDefault();
-          $(ev.target).parents('.alert').remove();
-        });
-
-        function alert(type, msg) {
-          var code = Math.random().toString(36).substr(2, 5);
-          var html = '<div class="'+code+' alert alert-'+type+'">';
-          html += '<a class="close" data-dismiss="alert">×</a>';
-          html += '<h4 class="alert-heading">'+(type[0].toUpperCase() + type.slice(1))+'!</h4>'
-          html += msg;
-          html += '</div>';
-          
-          $('.alert-container').append(html);
-
-          setTimeout(function() {
-            $('.'+code).remove();
-          }, 10000);
-        }
-
-
-        $('#si-single button').on('click', function(ev) {
-          ev.preventDefault();
-
-          var x = $('#si-single input.x').toArray().map(function(i) {
-            return { id: $(i).attr('name'), x: $(i).val() };
-          });
-
-          var y = $('#si-single input.y').toArray().map(function(i) {
-            return { id: $(i).attr('name'), y: $(i).val() };
-          });
-
-          var p = x.map(function(c, i) {
-            return { idX: c.id, idY: y[i].id, x: c.x, y: y[i].y };
-          });
-
-          var points = p.filter(function(i) {
-            return i.x.length && i.y.length;
-          }).map(function(i) {
-            return { x: Number(i.x), y: Number(i.y) };
-          });
-
-          var params = p.filter(function(i) {
-            return !i.x.length || !i.y.length;
-          });
-
-          if (!params.length) {
-            alert('error', 'Please provide correct search variable, just one clear input what you need calculate');
-            return;
-          }
-
-          if (points.length < 1) {
-            alert('error', 'Please provide more points');
-            return;
-          }
-
-          try {
-            if (params[0].x.length) {
-              var calculate = single(points)({ x: Number(params[0].x) });
-
-              $('input[name="'+params[0].idY+'"').val(calculate);
-              $('input[name="'+params[0].idY+'"').addClass('active');
-
-              setTimeout(function() {
-                $('input[name="'+params[0].idY+'"').removeClass('active');
-              }, 4000);
-              return;
-            }
-
-            if (params[0].y.length) {
-              var calculate = single(points)({ y: Number(params[0].y) });
-
-              $('input[name="'+params[0].idX+'"').val(calculate);
-              $('input[name="'+params[0].idX+'"').addClass('active');
-
-              setTimeout(function() {
-                $('input[name="'+params[0].idX+'"').removeClass('active');
-              }, 4000);
-              return;
-            }
-
-            alert('error', 'Please provide correct search params');
-          } catch(err) {
-            alert('error', 'Can\'t calculate single interpolation');
-          }
-        });
-
-        // var points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
-        // var f = single(points);
-
-        // console.log(f({ x: 1.5 }));
-        // console.log(f({ y: 1.5 }));
-
-        // var points = [{ x: 1, y: 1, z: 11 }, { x: 2, y: 1, z: 12 }, { x: 1, y: 2, z: 21 }, { x: 2, y: 2, z: 22 }];
-        // var f = double(points);
-
-        // console.log(f({ x: 1.5, y: 1.5 }));
-        // console.log(f({ x: 1.5, z: 16.5 }));
-        // console.log(f({ y: 1.5, z: 16.5 }));
-      });
-    </script>
-  
     <style>
       #si-single, #si-double {
         margin-bottom: 25px;
@@ -297,25 +193,6 @@
         margin: 15px 0 0 0;
         color: red;
       }
-
-      .close {
-        float: right;
-        font-size: 20px;
-        font-weight: bold;
-        line-height: 18px;
-        color: #000000;
-        text-shadow: 0 1px 0 #ffffff;
-        opacity: 0.2;
-        filter: alpha(opacity=20);
-      }
-      .close:hover {
-        color: #000000;
-        text-decoration: none;
-        opacity: 0.4;
-        filter: alpha(opacity=40);
-        cursor: pointer;
-      }
-
       .alert {
         padding: 8px 35px 8px 14px;
         margin-bottom: 18px;
@@ -330,12 +207,6 @@
       .alert-heading {
         color: inherit;
         margin: 10px 0;
-      }
-      .alert .close {
-        position: relative;
-        top: -2px;
-        right: -21px;
-        line-height: 18px;
       }
       .alert-success {
         background-color: #dff0d8;
@@ -372,6 +243,137 @@
         z-index: 100;
       }
     </style>
+    <script>
+        $(document).ready(function() {
+          function notification(type, msg) {
+            $('.alert-container').append(`
+              <div class="${Math.random().toString(36).substr(2, 5)} alert alert-${type}">
+                <h4 class="alert-heading">${type[0].toUpperCase()}${type.slice(1)}!</h4>
+                ${msg}
+              </div>
+            `);
+  
+            setTimeout(function() {
+              $('.alert-container .alert').first().remove();
+            }, 3000);
+          }
+
+          function calculateD(id, point) {
+            $('#si-double input[name="'+id+'"').val(point);
+            $('#si-double input[name="'+id+'"').addClass('active');
+
+            setTimeout(function() {
+              $('#si-double input[name="'+id+'"').removeClass('active');
+            }, 3000);
+          }
+
+          function calculateS(id, point) {
+            $('#si-single input[name="'+id+'"').val(point);
+            $('#si-single input[name="'+id+'"').addClass('active');
+
+            setTimeout(function() {
+              $('#si-single input[name="'+id+'"').removeClass('active');
+            }, 3000);
+          }
+  
+          $('#si-single button').on('click', function(ev) {
+            ev.preventDefault();
+
+            var p = $('#si-single input.x').toArray().map(function(i) {
+              var n = $(i).attr('name')[1];
+              return {
+                x: { i: `x${n}`, p: $(i).val() },
+                y: { i: `y${n}`, p: $('#si-single [name="y'+n+'"]').val() },
+              };
+            });
+
+            try {
+              var points = p.filter(function(i) {
+                return i.x.p.length && i.y.p.length;
+              }).map(function(i) {
+                return { x: Number(i.x.p), y: Number(i.y.p) };
+              });
+
+              var params = p.find(function(i) {
+                return !i.x.p.length || !i.y.p.length;
+              });
+
+              if (params.x.p.length) {
+                calculateS(params.y.i, single(points)({
+                  x: Number(params.x.p),
+                }));
+                return;
+              }
+
+              if (params.y.p.length) {
+                calculateS(params.x.i, single(points)({
+                  y: Number(params.y.p),
+                }))
+                return;
+              }
+  
+              notification('error', 'Please provide correct search params');
+            } catch(err) {
+              notification('error', 'Can\'t calculate single interpolation');
+            }
+          });
+  
+          $('#si-double button').on('click', function(ev) {
+            ev.preventDefault();
+
+            var p = $('#si-double input.z').toArray().map(function(i) {
+              var n = $(i).attr('name');
+              return {
+                z: { i: n, p: $(i).val() },
+                x: { i: `x${n[2]}`, p: $('#si-double [name="x'+n[2]+'"]').val() },
+                y: { i: `y${n[1]}`, p: $('#si-double [name="y'+n[1]+'"]').val() },
+              };
+            });
+
+            try {
+              var search = ['z22', 'y2', 'x2'];
+
+              var points = p.filter(function(i) {
+                return !search.includes(i.z.i);
+              }).map(function(i) {
+                return { x: Number(i.x.p), y: Number(i.y.p), z: Number(i.z.p) };
+              });
+
+              var params = p.find(function(i) {
+                return search.includes(i.z.i);
+              });
+
+              if (params.x.p.length && params.y.p.length) {
+                calculateD(params.z.i, double(points)({
+                  x: Number(params.x.p),
+                  y: Number(params.y.p),
+                }));
+                return;
+              }
+
+              if (params.x.p.length && params.z.p.length) {
+                calculateD(params.y.i, double(points)({
+                  x: Number(params.x.p),
+                  z: Number(params.z.p),
+                }));
+                return;
+              }
+
+              if (params.y.p.length && params.z.p.length) {
+                calculateD(params.x.i, double(points)({
+                  y: Number(params.y.p),
+                  z: Number(params.z.p),
+                }));
+                return;
+              }
+  
+              notification('error', 'Please provide correct search params');
+            } catch(err) {
+              notification('error', 'Can\'t calculate double interpolation');
+            }
+          });
+        });
+      </script>
 {% seo %}
   </head>
 
@@ -430,26 +432,26 @@
                   <tr>
                     <td></td>
                     <td><input type="number" class="x" name="x1" placeholder="X1" tabindex="1"></td>
-                    <td><input type="number" class="x" name="x" placeholder="X" tabindex="2"></td>
-                    <td><input type="number" class="x" name="x2" placeholder="X2" tabindex="3"></td>
+                    <td><input type="number" class="x" name="x2" placeholder="X" tabindex="2"></td>
+                    <td><input type="number" class="x" name="x3" placeholder="X3" tabindex="3"></td>
                   </tr>
                   <tr>
                     <td><input type="number" class="y" name="y1" placeholder="Y1" tabindex="4"></td>
                     <td><input type="number" class="z" name="z11" placeholder="Z11" tabindex="5"></td>
                     <td></td>
-                    <td><input type="number" class="z" name="z12" placeholder="Z12" tabindex="6"></td>
+                    <td><input type="number" class="z" name="z13" placeholder="Z12" tabindex="6"></td>
                   </tr>
                   <tr>
-                    <td><input type="number" class="y" name="y" placeholder="Y" tabindex="7"></td>
+                    <td><input type="number" class="y" name="y2" placeholder="Y" tabindex="7"></td>
                     <td></td>
-                    <td><input type="number" class="z" name="z" placeholder="Z" tabindex="8"></td>
+                    <td><input type="number" class="z" name="z22" placeholder="Z" tabindex="8"></td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td><input type="number" class="y" name="y2" placeholder="Y2" tabindex="9"></td>
-                    <td><input type="number" class="z" name="z21" placeholder="Z21" tabindex="10"></td>
+                    <td><input type="number" class="y" name="y3" placeholder="Y2" tabindex="9"></td>
+                    <td><input type="number" class="z" name="z31" placeholder="Z21" tabindex="10"></td>
                     <td></td>
-                    <td><input type="number" class="z" name="z22" placeholder="Z22" tabindex="11"></td>
+                    <td><input type="number" class="z" name="z33" placeholder="Z22" tabindex="11"></td>
                   </tr>
                 </tbody>
               </table>
