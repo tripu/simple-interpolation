@@ -18,17 +18,27 @@
     
     <script>
       $(document).ready(function() {
-        function error(el, msg) {
-          $('.si-block p').text('');
-          $('.si-block p').addClass('hidden');
-          $(el +' .si-block p').text(msg);
-          $(el + '.si-block p').removeClass('hidden');
+        $('.alert-container .close').on('click', function(ev) {
+          ev.preventDefault();
+          $(ev.target).parents('.alert').remove();
+        });
+
+        function alert(type, msg) {
+          var code = Math.random().toString(36).substr(2, 5);
+          var html = '<div class="'+code+' alert alert-'+type+'">';
+          html += '<a class="close" data-dismiss="alert">×</a>';
+          html += '<h4 class="alert-heading">'+(type[0].toUpperCase() + type.slice(1))+'!</h4>'
+          html += msg;
+          html += '</div>';
+          
+          $('.alert-container').append(html);
 
           setTimeout(function() {
-            $('.si-block p').text('');
-            $('.si-block p').addClass('hidden');
-          }, 4000);
+            $('.'+code).remove();
+          }, 10000);
         }
+
+
         $('#si-single button').on('click', function(ev) {
           ev.preventDefault();
 
@@ -55,12 +65,12 @@
           });
 
           if (!params.length) {
-            error('#si-single', 'Please provide correct search variable, just one clear input what you need calculate');
+            alert('error', 'Please provide correct search variable, just one clear input what you need calculate');
             return;
           }
 
           if (points.length < 1) {
-            error('#si-single', 'Please provide more points');
+            alert('error', 'Please provide more points');
             return;
           }
 
@@ -89,12 +99,11 @@
               return;
             }
 
-            error('#si-single', 'Please provide correct search params');
+            alert('error', 'Please provide correct search params');
           } catch(err) {
-            error('#si-single', 'Can\'t calculate single interpolation');
+            alert('error', 'Can\'t calculate single interpolation');
           }
         });
-
 
         // var points = [{ x: 1, y: 1}, { x: 2, y: 2 }];
         // var f = single(points);
@@ -288,6 +297,80 @@
         margin: 15px 0 0 0;
         color: red;
       }
+
+      .close {
+        float: right;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 18px;
+        color: #000000;
+        text-shadow: 0 1px 0 #ffffff;
+        opacity: 0.2;
+        filter: alpha(opacity=20);
+      }
+      .close:hover {
+        color: #000000;
+        text-decoration: none;
+        opacity: 0.4;
+        filter: alpha(opacity=40);
+        cursor: pointer;
+      }
+
+      .alert {
+        padding: 8px 35px 8px 14px;
+        margin-bottom: 18px;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        background-color: #fcf8e3;
+        border: 1px solid #fbeed5;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        color: #c09853;
+      }
+      .alert-heading {
+        color: inherit;
+        margin: 10px 0;
+      }
+      .alert .close {
+        position: relative;
+        top: -2px;
+        right: -21px;
+        line-height: 18px;
+      }
+      .alert-success {
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+        color: #468847;
+      }
+      .alert-danger,
+      .alert-error {
+        background-color: #f2dede;
+        border-color: #eed3d7;
+        color: #b94a48;
+      }
+      .alert-info {
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+        color: #3a87ad;
+      }
+      .alert-block {
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+      .alert-block > p,
+      .alert-block > ul {
+        margin-bottom: 0;
+      }
+      .alert-block p + p {
+        margin-top: 5px;
+      }
+      .alert-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 400px;
+        z-index: 100;
+      }
     </style>
 {% seo %}
   </head>
@@ -311,6 +394,9 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
+          <div class="alert-container">
+
+          </div>
           <div id="si-single">
             <p class="title">Example of Single Interpolation</p>
             <form action="#">
@@ -332,7 +418,6 @@
               </table>
               <div class="si-block">
                 <button type="submit" class="si-button blue">CALCULATE</button>
-                <p class="hidden"></p>
               </div>
             </form>
           </div>
