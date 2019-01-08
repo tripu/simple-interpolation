@@ -3,7 +3,7 @@
 
 # Simple Interpolation
 
-A simple interpolation module that construct new data points within the range of a discrete set of known data points, [example](https://dmytropaduchak.github.io/simple-interpolation)
+A simple interpolation module that construct new data points within the range of a discrete set of known data points, [example](https://dmytropaduchak.github.io/simple-interpolation).
 
 ## Module Installation 
 
