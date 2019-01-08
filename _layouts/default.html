@@ -18,34 +18,53 @@
     
     <script>
       $(document).ready(function() {
+        function error() {
+          $('.si-block p').text('');
+          $('.si-block p').addClass('hidden');
+          $('#si-single .si-block p').text('Please provide search variable, just clear input what you need calculate');
+          $('#si-single .si-block p').removeClass('hidden');
 
+          setTimeout(function() {
+            $('.si-block p').text('');
+            $('.si-block p').addClass('hidden');
+          }, 4000);
+        }
         $('#si-single button').on('click', function(ev) {
           ev.preventDefault();
 
           var x = $('#si-single input.x').toArray().map(function(i) {
-            return $(i).val();
+            return { id: $(i).attr('name'), x: $(i).val() };
           });
 
           var y = $('#si-single input.y').toArray().map(function(i) {
-            return $(i).val();
+            return { id: $(i).attr('name'), y: $(i).val() };
           });
 
           var p = x.map(function(c, i) {
-            return { x: c, y: y[i] };
+            return { idX: c.id, idY: y[i].id, x: c.x, y: y[i].y };
           });
 
+
           var points = p.filter(function(i) {
-            return i.x.length || i.y.length;
+            return i.x.length && i.y.length;
           });
 
           var params = p.filter(function(i) {
             return !i.x.length || !i.y.length;
           });
-          
-          if (params.length) {
 
+          if (!params.length) {
+            error('#si-single', 'Please provide correct search variable, just one clear input what you need calculate');
             return;
           }
+
+          if (points.length < 2) {
+            error('#si-single', 'Please provide more points');
+            return;
+          }
+          console.log(points);
+          console.log(params);
+
 
           console.log(x);
 
@@ -68,6 +87,9 @@
     </script>
   
     <style>
+      #si-single, #si-double {
+        margin-bottom: 25px;
+      }
       #si-single form, #si-double form {
         padding: 20px;
         overflow: auto;
@@ -228,18 +250,17 @@
           background-image:linear-gradient(top, #2879d0, #2e7bcf);
       }
       .si-block {
-        margin-left: 7px;
-        margin-top: 20px;
+        margin: 20px 7px 7px;
       }
       .hidden {
         display: none;
       }
       .si-block p {
+        font-size: 14px;
         margin: 0;
         float: right;
-        width: 400px;
+        width: 390px;
         color: red;
-        margin-left: 20px;
       }
     </style>
 {% seo %}
@@ -285,7 +306,7 @@
               </table>
               <div class="si-block">
                 <button type="submit" class="si-button blue">CALCULATE</button>
-                <p class="hidden">Please provide search variable, just clear input what you need calculate</p>
+                <p class="hidden"></p>
               </div>
             </form>
           </div>
@@ -323,7 +344,7 @@
               </table>
               <div class="si-block">
                 <button type="submit" class="si-button blue">CALCULATE</button>
-                <p>Please provide search variable, just clear input what you need calculate</p>
+                <p class="hidden"></p>
               </div>
             </form>
           </div>
